@@ -1,0 +1,46 @@
+apply plugin: "java"
+apply plugin: "com.google.protobuf"
+
+def protobuf_version = "3.0.0-beta-2"
+def protobuf_nano_version = "3.0.0-alpha-5"
+
+buildscript {
+    repositories {
+        mavenLocal()
+        jcenter()
+    }
+    dependencies {
+        classpath "com.google.protobuf:protobuf-gradle-plugin:0.7.7"
+    }
+}
+
+repositories {
+    jcenter()
+    mavenLocal()
+}
+
+dependencies {
+    compile "com.google.protobuf:protobuf-java:${protobuf_version}"
+    compile "com.google.protobuf.nano:protobuf-javanano:${protobuf_nano_version}"
+}
+
+protobuf {
+    generatedFilesBaseDir = "${projectDir}/generated"
+
+    protoc {
+        // The version of protoc must match protobuf-java.
+        artifact = "com.google.protobuf:protoc:${protobuf_version}"
+    }
+    generateProtoTasks {
+        ofSourceSet("main").each { task ->
+            task.builtins {
+                remove java
+                javanano {
+                    option "ignore_services=true"
+                    option "enum_style=java"
+                }
+            }
+            task.generateDescriptorSet = false
+        }
+    }
+}
