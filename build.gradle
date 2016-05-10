@@ -20,7 +20,6 @@ repositories {
 }
 
 dependencies {
-    compile "com.google.protobuf:protobuf-java:${protobuf_version}"
     compile "com.google.protobuf.nano:protobuf-javanano:${protobuf_nano_version}"
 }
 
