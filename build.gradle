@@ -21,7 +21,6 @@ repositories {
 
 dependencies {
     compile "com.google.protobuf:protobuf-java:${protobuf_version}"
-    compile "com.google.protobuf.nano:protobuf-javanano:${protobuf_nano_version}"
 }
 
 protobuf {
@@ -30,17 +29,5 @@ protobuf {
     protoc {
         // The version of protoc must match protobuf-java.
         artifact = "com.google.protobuf:protoc:${protobuf_version}"
-    }
-    generateProtoTasks {
-        ofSourceSet("main").each { task ->
-            task.builtins {
-                remove java
-                javanano {
-                    option "ignore_services=true"
-                    option "enum_style=java"
-                }
-            }
-            task.generateDescriptorSet = false
-        }
     }
 }
